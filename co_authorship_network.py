@@ -1,4 +1,3 @@
-import operator
 from utils.co_occur2graphml import convert_co_occur_to_graphml
 
 class AuthorDict:
@@ -82,14 +81,14 @@ if __name__ == '__main__':
                 else:
                     pair = (i_author_id, j_author_id)
 
-                if pair not in co_occur_counter.keys():
+                if pair not in co_occur_counter:
                     co_occur_counter[pair] = 1
                 else:
                     co_occur_counter[pair] += 1
 
     # sort and store
     with open(output_file, 'w', encoding='utf-8') as fw:
-        sorted_dict = sorted(co_occur_counter.items(), key=operator.itemgetter(-1), reverse=True)
+        sorted_dict = sorted(co_occur_counter.items(), key=lambda x: x[-1], reverse=True)
         for (a1_id, a2_id), freq in sorted_dict:
             print(f'{author_dict.get_author(a1_id)}\t{author_dict.get_author(a2_id)}\t{freq}')
             fw.write(f'{author_dict.get_author(a1_id)}\t{author_dict.get_author(a2_id)}\t{freq}\n')
